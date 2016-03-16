@@ -27,21 +27,21 @@ Features:
 * one key instead of many, but also unobtrusive (example in haml):
 
     ```haml
-        - cache [cache_key_for(@articles, 'articles'), @some_active_model_object, 'box-type-view'] do
-        (...)
+    - cache [cache_key_for(@articles, 'articles'), @some_active_model_object, 'box-type-view'] do
+    (...)
     ```
 * core concept of Russian Doll Caching is touching: `belongs_to :some_model, touch: true`, but if you do not use `touch`, you can still cache safely like this (example in haml):
 
     ```haml
-        - cache [cache_key_for(@articles, 'articles'), @some_model_instance] do
-        (...)
+    - cache [cache_key_for(@articles, 'articles'), @some_model_instance] do
+    (...)
     ```
 
 Example (haml):
 
 ```haml
-    - cache cache_key_for(@service.datacenters, 'datacenters', current_company.cache_key, Time.now.utc.to_date.to_s) do
-    (...)
+- cache cache_key_for(@service.datacenters, 'datacenters', current_company.cache_key, Time.now.utc.to_date.to_s) do
+(...)
 ```
 
 Rails will generate cache at:
@@ -59,7 +59,8 @@ Features:
 Example (haml):
 
 ```haml
-    - cache cache_key_for_view(__FILE__, @service.datacenters, 'datacenters', current_company.cache_key, Time.now.utc.to_date.to_s) do
+- cache cache_key_for_view(__FILE__, @service.datacenters, 'datacenters', current_company.cache_key, Time.now.utc.to_date.to_s) do
+(...)
 ```
 
 Rails will generate cache at:
@@ -73,3 +74,8 @@ app_name:views/en/datacenters/5bd92bd352e7726d02175752913014711f5d412e/companies
 
     ./bin/setup
     bundle exec rake
+
+
+## TODO
+
+- add coveralls
