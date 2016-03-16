@@ -1,0 +1,7 @@
+language: ruby
+rvm:
+  - 2.2.4
+gemfile:
+  - gemfiles/rails_4.1.0.gemfile
+  - gemfiles/rails_4.2.0.gemfile
+sudo: false
