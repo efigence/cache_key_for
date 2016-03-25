@@ -1,6 +1,9 @@
 # Configure Rails Envinronment
 ENV["RAILS_ENV"] = "test"
 
+require 'simplecov'
+SimpleCov.start
+
 require "spec_helper"
 
 require "action_controller/railtie"

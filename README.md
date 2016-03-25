@@ -1,4 +1,4 @@
-# CacheKeyFor [![Build Status](https://travis-ci.org/efigence/cache_key_for.svg?branch=master)](https://travis-ci.org/efigence/cache_key_for)
+# CacheKeyFor [![Build Status](https://travis-ci.org/efigence/cache_key_for.svg?branch=master)](https://travis-ci.org/efigence/cache_key_for) [![Coverage Status](https://coveralls.io/repos/github/efigence/cache_key_for/badge.svg?branch=master)](https://coveralls.io/github/efigence/cache_key_for?branch=master)
 Comprehensive cache key generator (complements Rails `cache` helper)
 
 How to design a perfect cache key? This project's goal is to provide the bulletproof solution for most use cases.
@@ -79,7 +79,3 @@ app_name:views/en/datacenters/5bd92bd352e7726d02175752913014711f5d412e/companies
 
     rm gemfiles/*.lock
     bundle exec appraisal install
-
-## TODO
-
-- add coveralls

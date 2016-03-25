@@ -49,4 +49,6 @@ Gem::Specification.new do |s|
   s.add_development_dependency('appraisal', '~> 1.0')
   s.add_development_dependency('sqlite3', '~> 1.3')
   s.add_development_dependency('rspec-rails', '~> 3.1')
+  s.add_development_dependency('coveralls', '~> 0.8.13')
+  s.add_development_dependency('simplecov', '~> 0.11.2')
 end
