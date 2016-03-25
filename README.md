@@ -75,6 +75,10 @@ app_name:views/en/datacenters/5bd92bd352e7726d02175752913014711f5d412e/companies
     ./bin/setup
     bundle exec rake
 
+## Testing new versions
+
+    rm gemfiles/*.lock
+    bundle exec appraisal install
 
 ## TODO
 
