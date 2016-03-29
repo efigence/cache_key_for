@@ -1,6 +1,12 @@
+=begin
 require 'rails_helper'
 
-describe CacheKeyForHelper, type: :helper do
+class ApplicationController < ActionController::Base
+  include ActionController::Helpers
+  include CacheKeyFor::ControllerHelpers
+end
+
+describe ApplicationController, :type => :helper do
   # stub Rails.env.production?
   let(:string_inquirer) { ActiveSupport::StringInquirer.new('production') }
 
@@ -33,3 +39,4 @@ describe CacheKeyForHelper, type: :helper do
     end
   end
 end
+=end

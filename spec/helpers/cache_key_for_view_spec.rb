@@ -1,7 +1,11 @@
-require 'rails_helper'
-require 'rails/all'
+#require 'rails_helper'
 
-describe CacheKeyForViewHelper, type: :helper do
+#class ApplicationController < ActionController::Base
+  #include ActionController::Helpers
+  #include CacheKeyFor::ControllerHelpers
+#end
+=begin
+describe ApplicationController, :type => :helper do
   # stub Rails.env.production?
   let(:string_inquirer) { ActiveSupport::StringInquirer.new('production') }
   let(:rails_root) { '/home/me/my_app' }
@@ -57,3 +61,4 @@ describe CacheKeyForViewHelper, type: :helper do
     end
   end
 end
+=end

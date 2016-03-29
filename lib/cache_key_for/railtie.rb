@@ -1,13 +1,10 @@
-require 'cache_key_for/cache_key_for_helper'
-require 'cache_key_for/cache_key_for_view_helper'
-
 module CacheKeyFor
   class Railtie < Rails::Railtie
-    initializer 'cache_key_for.helper' do |app|
-      ActionView::Base.send :include, CacheKeyForHelper
-    end
-    initializer 'cache_key_for_view.helper' do |app|
-      ActionView::Base.send :include, CacheKeyForViewHelper
+    initializer 'cache_key_for.action_controller' do
+      ActiveSupport.on_load(:action_controller) do
+        require 'cache_key_for/controller_helpers'
+        include CacheKeyFor::ControllerHelpers
+      end
     end
   end
 end

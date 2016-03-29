@@ -1,0 +1,55 @@
+dodaj przykład i zastosowanie dla etag:
+zmień z helpera na concern:
+http://mohanraj-nagasamy.github.io/blog/2014/02/22/browser-cache-how-etags-works-in-rails-3-and-rails-4/
+
+
+http://glennstovall.com/developer-tutorials/how-to-test-corns-in-rails-4/
+# http://stackoverflow.com/questions/22055889/how-to-test-a-controller-concern-in-rails-4
+describe MyControllerConcern do
+
+  before do
+    class FakesController < ApplicationController
+      include MyControllerConcern
+    end
+  end
+  after { Object.send :remove_const, :FakesController }
+  let(:object) { FakesController.new }
+
+  describe 'my_method_to_test' do
+    it { expect(object).to eq('expected result') }
+  end
+
+  describe FakesController do
+    describe 'includes MyControllerConcern' do
+      it { expect(FakesController.ancestors.include? MyControllerConcern).to eq(true) }
+    end
+  end
+end
+
+# app/controllers/concerns/cache_key_for.rb
+module CacheKeyFor
+  extend ActiveSupport::Concern
+
+  included do
+    helper_method :xxx
+  end
+
+  protected
+
+  def xxx(item)
+  end
+end
+
+require 'spec_helper'
+
+class FakesController < ApplicationController
+  include CacheKeyFor
+end
+
+describe FakesController do
+  it "should mark an item out of stock" do
+    item = create(:item, is_in_stock: true)
+    subject.xxx(item)
+    expect(item.is_in_stock).to be false
+  end
+end
