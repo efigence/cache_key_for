@@ -36,10 +36,10 @@
 # ```
 module CacheKeyForHelper
   def cache_key_for(scoped_collection, collection_prefix, cache_owner_cache_key = '', suffix = '')
-    max_updated_at = scoped_collection.to_a.map{|i| i.updated_at.to_i }.max.to_i
+    max_updated_at = scoped_collection.to_a.map { |i| i.updated_at.to_i }.max.to_i
     count = scoped_collection.count
     ids_string = scoped_collection.to_a.map(&:id).join('-')
-    request_params = request.params ? request.params.map{|k, v| [k.dup.force_encoding("UTF-8"), v.dup.force_encoding("UTF-8")] } : nil
+    request_params = request.params ? request.params.map { |k, v| [k.dup.force_encoding('UTF-8'), v.dup.force_encoding('UTF-8')] } : nil
     digest = Digest::SHA1.hexdigest("#{ids_string}-#{max_updated_at}-#{count}-#{request.path}-#{request_params}")
     "#{I18n.locale}/#{collection_prefix}/#{digest}/#{cache_owner_cache_key}/#{suffix}"
   end
