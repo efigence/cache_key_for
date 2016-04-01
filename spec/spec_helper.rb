@@ -10,7 +10,7 @@ require "action_controller/railtie"
 # require "rails/test_unit/railtie"
 
 require 'rspec/rails'
-#require_relative './../lib/cache_key_for/controller_helpers'
+require_relative './../lib/cache_key_for/controller_helpers'
 
 RSpec.configure do |config|
   config.expect_with :rspec do |expectations|
@@ -26,5 +26,6 @@ RSpec.configure do |config|
   config.include ActionView::Helpers
  # config.include ControllerHelpers, :type => :controller
   #config.include ApplicationHelper, :type => :helper
-  #config.include CacheKeyFor::ControllerHelpers, :type => :controller
+  #config.include AbstractController::Helpers, :type => :helper
+  #config.include CacheKeyFor::ControllerHelpers, type: :helper
 end

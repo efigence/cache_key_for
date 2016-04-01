@@ -2,6 +2,7 @@ require 'active_support/all'
 module CacheKeyFor
   module ControllerHelpers
     extend ActiveSupport::Concern
+    include AbstractController::Helpers
 
     included do
       helper_method :cache_key_for, :cache_key_for_view
