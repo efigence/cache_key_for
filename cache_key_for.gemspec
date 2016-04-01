@@ -53,4 +53,6 @@ Gem::Specification.new do |s|
   s.add_development_dependency('simplecov', '~> 0.11.2')
   s.add_development_dependency('pry', '~> 0.10.3')
   s.add_development_dependency('pry-byebug', '~> 3.3.0')
+  s.add_development_dependency('fuubar', '~> 2.0.0')
+  s.add_development_dependency('codeclimate-test-reporter', '~> 0.5.0')
 end

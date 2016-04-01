@@ -31,6 +31,8 @@ GEM
       thor (>= 0.14.0)
     builder (3.2.2)
     byebug (8.2.2)
+    codeclimate-test-reporter (0.5.0)
+      simplecov (>= 0.7.1, < 1.0.0)
     coderay (1.1.1)
     coveralls (0.8.13)
       json (~> 1.8)
@@ -41,6 +43,9 @@ GEM
     diff-lcs (1.2.5)
     docile (1.1.5)
     erubis (2.7.0)
+    fuubar (2.0.0)
+      rspec (~> 3.0)
+      ruby-progressbar (~> 1.4)
     i18n (0.7.0)
     json (1.8.2)
     loofah (2.0.3)
@@ -112,7 +117,9 @@ PLATFORMS
 DEPENDENCIES
   appraisal (~> 1.0)
   cache_key_for!
+  codeclimate-test-reporter (~> 0.5.0)
   coveralls (~> 0.8.13)
+  fuubar (~> 2.0.0)
   pry (~> 0.10.3)
   pry-byebug (~> 3.3.0)
   rspec-rails (~> 3.1)
