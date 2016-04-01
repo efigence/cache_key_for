@@ -48,6 +48,8 @@ GEM
     arel (6.0.3)
     builder (3.2.2)
     byebug (8.2.2)
+    codeclimate-test-reporter (0.5.0)
+      simplecov (>= 0.7.1, < 1.0.0)
     coderay (1.1.1)
     concurrent-ruby (1.0.1)
     coveralls (0.8.13)
@@ -161,6 +163,7 @@ PLATFORMS
 DEPENDENCIES
   appraisal (~> 1.0)
   cache_key_for!
+  codeclimate-test-reporter (~> 0.5.0)
   coveralls (~> 0.8.13)
   fuubar (~> 2.0.0)
   pry (~> 0.10.3)
