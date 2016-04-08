@@ -16,7 +16,7 @@
 # ```
 module CacheKeyForViewHelper
   include CacheKeyForHelper
-  def cache_key_for_view(file, scoped_collection, collection_prefix, cache_owner_cache_key = '', suffix = '')
-    "#{cache_key_for(scoped_collection, collection_prefix, cache_owner_cache_key, suffix)}#{file.gsub(Rails.root.to_s, '')}"
+  def cache_key_for_view(file, scoped_collection, collection_prefix, cache_owner_cache_key = '', suffix = '', whitelist_params = [])
+    "#{cache_key_for(scoped_collection, collection_prefix, cache_owner_cache_key, suffix, whitelist_params)}#{file.gsub(Rails.root.to_s, '')}"
   end
 end

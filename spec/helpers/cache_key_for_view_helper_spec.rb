@@ -26,16 +26,6 @@ describe CacheKeyForViewHelper, type: :helper do
     let(:required_properties) { [file, scoped_collection, collection_prefix] }
     let(:optional_properties) { [file, scoped_collection, collection_prefix, cache_owner_cache_key, suffix] }
 
-    context 'when `cache_owner_cache_key` and `suffix` are empty' do
-      subject { helper.cache_key_for_view(*required_properties) }
-      it { is_expected.to match(/\Aen\/fake_records\/([a-zA-Z0-9]+)\/\/\/app\/views\/fake_records\/index\.html\.haml\z/) }
-    end
-
-    context 'when `cache_owner_cache_key` and `suffix` are not empty' do
-      subject { helper.cache_key_for_view(*optional_properties) }
-      it { is_expected.to match(/\Aen\/fake_records\/([a-zA-Z0-9]+)\/dbe13b0b975c7ce95665f019aa2ba0d77eb0f2c8\/\d{,4}-\d{,2}-\d{,2}\/app\/views\/fake_records\/index\.html\.haml\z/) }
-    end
-
     context "when `cache_key_for_view` is used with a normal controller" do
       before do
         controller = double('controller', controller_path: 'some_controller', action_name: 'some_action')
