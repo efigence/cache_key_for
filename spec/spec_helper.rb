@@ -7,5 +7,5 @@ RSpec.configure do |config|
     mocks.verify_partial_doubles = true
     mocks.syntax = :expect
   end
-  config.order = :random
+  config.order = :alphabetical #:random
 end
