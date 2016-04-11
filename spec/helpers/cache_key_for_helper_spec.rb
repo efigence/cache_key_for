@@ -46,7 +46,7 @@ describe CacheKeyForHelper, type: :helper do
           subject do
             helper.cache_key_for(*optional_properties)
           end
-          it { is_expected.to eq('en/fake_records/014ddaafffda1a12a17cfdd68a022b213b3859eb/other_key/2016-04-01') }
+          it { is_expected.to eq('en/fake_records/f21e148efbe92ee5028a2caa543a75e42eb3a13b/other_key/2016-04-01') }
         end
         context 'when `request.params` include utm parameters (key should not change)' do
           let(:request) { double('request', path: '/some-path', params: { a: '1', b: '1', c: [1, 2, 3], utm_medium: 'cpc' }, subdomains: ['www']) }
@@ -56,7 +56,7 @@ describe CacheKeyForHelper, type: :helper do
           subject do
             helper.cache_key_for(*optional_properties)
           end
-          it { is_expected.to eq('en/fake_records/014ddaafffda1a12a17cfdd68a022b213b3859eb/other_key/2016-04-01') }
+          it { is_expected.to eq('en/fake_records/f21e148efbe92ee5028a2caa543a75e42eb3a13b/other_key/2016-04-01') }
         end
       end
       context 'when `whitelist_params` is not empty' do
@@ -69,7 +69,7 @@ describe CacheKeyForHelper, type: :helper do
           properties = optional_properties.push(whitelist_params)
           helper.cache_key_for(*properties)
         end
-        it { is_expected.not_to eq('en/fake_records/014ddaafffda1a12a17cfdd68a022b213b3859eb/other_key/2016-04-01') }
+        it { is_expected.not_to eq('en/fake_records/f21e148efbe92ee5028a2caa543a75e42eb3a13b/other_key/2016-04-01') }
       end
     end
   end

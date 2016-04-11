@@ -5,6 +5,7 @@ require 'coveralls'
 # Configure Rails Envinronment
 ENV['RAILS_ENV'] = 'test'
 
+# FIXME: `<top (required)>': [DEPRECATION] ::[] is deprecated. Use ::new instead.
 SimpleCov.formatter = SimpleCov::Formatter::MultiFormatter[
     SimpleCov::Formatter::HTMLFormatter,
     CodeClimate::TestReporter::Formatter,
