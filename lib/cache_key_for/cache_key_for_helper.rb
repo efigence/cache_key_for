@@ -1,12 +1,12 @@
 # Features:
 # * ORM agnostic
-# * works with arrays and Plain Old Ruby Objects (POROs) (just provide: #id, #updated_at and #cache_key)
+# * works with arrays and Plain Old Ruby Objects (POROs) (just provide: #id, #updated_at)
 # * supports locale
 # * recognizes subdomains
 # * deletion from and addition to collections sorted in ascending order (via embedded `count` in the key)
 # * accepts `cache_owner_cache_key` for personalized cache, eg. current_company.cache_key, current_user.cache_key etc.
 # * filters params with proper non-utf8 data handling for key generation
-# * recognizes pagination via params
+# * recognizes pagination via params (performs well for less than 100 objects per page)
 # * includes all params, not only GET's `query` params, which enables submitting of complex forms via POST,
 #   which - otherwise - would have query string longer than 2048 characters (Microsoft Internet Explorer)
 # * optional whitelist of first level parameters to prevent accidentally generating duplicated cache
@@ -42,7 +42,7 @@
 # ```
 module CacheKeyForHelper
   def cache_key_for(scoped_collection, collection_prefix, cache_owner_cache_key = '', suffix = '', whitelist_params = [])
-    max_updated_at = scoped_collection.to_a.map { |i| i.updated_at.to_i }.max.to_i
+    max_updated_at = scoped_collection.to_a.map { |i| i.updated_at ? i.updated_at.utc.to_f : 0 }.max
     count = scoped_collection.count
     ids_string = scoped_collection.to_a.map(&:id).join('-')
     blacklist_params = ['utm_source', 'utm_medium', 'utm_term', 'utm_content', 'utm_campaign']
