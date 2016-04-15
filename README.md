@@ -14,12 +14,18 @@ It should be run as a gem and included in your `Gemfile`:
 ### \#cache_key_for
 
 Features:
-* locale
-* pagination
-* scoped collections
+* ORM agnostic
+* works with arrays and Plain Old Ruby Objects (POROs) (just provide: #id, #updated_at)
+* supports locale
+* recognizes subdomains
 * deletion from and addition to collections sorted in ascending order (via embedded `count` in the key)
 * accepts `cache_owner_cache_key` for personalized cache, eg. current_company.cache_key, current_user.cache_key etc.
-* all params (including other than GET's query params) with proper non-utf8 data handling for key generation
+* filters params with proper non-utf8 data handling for key generation
+* recognizes pagination via params (performs well for less than 100 objects per page)
+* includes all params, not only GET's `query` params, which enables submitting of complex forms via POST,
+  which - otherwise - would have query string longer than 2048 characters (Microsoft Internet Explorer)
+* optional whitelist of first level parameters to prevent accidentally generating duplicated cache
+* strips utm_* params
 * optional suffix for:
     * expiry tags (unlike :expires_in cache option, this offers full :file_store storage compatibility)
     * any edge cases

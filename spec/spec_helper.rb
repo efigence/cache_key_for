@@ -21,7 +21,7 @@ RSpec.configure do |config|
     mocks.verify_partial_doubles = true
     mocks.syntax = :expect
   end
-  config.order = :random
+  config.order = :alphabetical #:random
   config.infer_spec_type_from_file_location!
   config.include ActionView::Helpers
  # config.include ControllerHelpers, :type => :controller
