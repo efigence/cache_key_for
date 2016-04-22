@@ -1,3 +1,6 @@
+I, [2016-04-19T08:55:57.021377 #21268]  INFO -- : Read fragment views/en/datacenters/d6f9078c97946c99f654960edf58a694b72b70ba/companies/1-20160415115333882150000/2016-04-19/app/views/services/datacenters.html.haml/253134ad942cadfaebe8b8c91b6b4da0 (0.4ms)
+
+
 dodaj przykład i zastosowanie dla etag:
 zmień z helpera na concern:
 http://mohanraj-nagasamy.github.io/blog/2014/02/22/browser-cache-how-etags-works-in-rails-3-and-rails-4/
