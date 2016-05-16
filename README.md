@@ -22,6 +22,7 @@ Features:
 * accepts `cache_owner_cache_key` for personalized cache, eg. current_company.cache_key, current_user.cache_key etc.
 * filters params with proper non-utf8 data handling for key generation
 * recognizes pagination via params (performs well for less than 100 objects per page)
+* allows to set default page and per_page or sort order or any param in `default_params` to avoid multiple different default caches
 * includes all params, not only GET's `query` params, which enables submitting of complex forms via POST,
   which - otherwise - would have query string longer than 2048 characters (Microsoft Internet Explorer)
 * optional whitelist of first level parameters to prevent accidentally generating duplicated cache
