@@ -86,3 +86,7 @@ app_name:views/en/datacenters/5bd92bd352e7726d02175752913014711f5d412e/companies
 
     rm gemfiles/*.lock
     bundle exec appraisal install
+
+## Todo
+
+* implement https://robots.thoughtbot.com/ruby-2-keyword-arguments to simplify passing custom args
