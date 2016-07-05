@@ -43,9 +43,19 @@
 # ```
 module CacheKeyForHelper
   def cache_key_for(scoped_collection, collection_prefix, cache_owner_cache_key = '', suffix = '', whitelist_params = [], default_params = {})
-    max_updated_at = scoped_collection.to_a.map { |i| i.updated_at ? i.updated_at.utc.to_f : 0 }.max
+    if scoped_collection.respond_to?(:maximum)
+      max_updated_at = scoped_collection.maximum(:updated_at).to_f
+    elsif scoped_collection.class == Array
+      max_updated_at = scoped_collection.to_a.map { |i| i.updated_at ? i.updated_at.utc.to_f : 0 }.max
+    elsif scoped_collection.respond_to?(:max)
+      max_updated_at = scoped_collection.max(:updated_at).to_f
+    end
     count = scoped_collection.count
-    ids_string = scoped_collection.to_a.map(&:id).join('-')
+    if scoped_collection.respond_to?(:ids)
+      ids_string = scoped_collection.ids
+    else
+      ids_string = scoped_collection.to_a.map(&:id).join('-')
+    end
     blacklist_params = ['utm_source', 'utm_medium', 'utm_term', 'utm_content', 'utm_campaign']
     request_params = if request.params
       if whitelist_params.empty?
