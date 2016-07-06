@@ -43,11 +43,17 @@
 # ```
 module CacheKeyForHelper
   def cache_key_for(scoped_collection, collection_prefix, cache_owner_cache_key = '', suffix = '', whitelist_params = [], default_params = {})
-    if scoped_collection.respond_to?(:maximum)
-      max_updated_at = scoped_collection.maximum(:updated_at).to_f
+    if scoped_collection.respond_to?(:maximum) # ActiveRecord
+      begin
+        max_updated_at = scoped_collection.maximum(scoped_collection.table_name + '.updated_at').to_f
+      # can't use join table as query root if query includes polimorphic associations
+      rescue ActiveRecord::EagerLoadPolymorphicError
+        Rails.logger.debug "[CacheKeyForHelper] Fallback to array (ActiveRecord::EagerLoadPolymorphicError)"
+        scoped_collection = scoped_collection.to_a
+      end
     elsif scoped_collection.class == Array
       max_updated_at = scoped_collection.to_a.map { |i| i.updated_at ? i.updated_at.utc.to_f : 0 }.max
-    elsif scoped_collection.respond_to?(:max)
+    elsif scoped_collection.respond_to?(:max) # Mongoid
       max_updated_at = scoped_collection.max(:updated_at).to_f
     end
     count = scoped_collection.count
