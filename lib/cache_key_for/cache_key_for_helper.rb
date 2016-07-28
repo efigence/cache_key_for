@@ -50,6 +50,7 @@ module CacheKeyForHelper
       rescue ActiveRecord::EagerLoadPolymorphicError
         Rails.logger.debug "[CacheKeyForHelper] Fallback to array (ActiveRecord::EagerLoadPolymorphicError)"
         scoped_collection = scoped_collection.to_a
+        max_updated_at = scoped_collection.to_a.map { |i| i.updated_at ? i.updated_at.utc.to_f : 0 }.max
       end
     elsif scoped_collection.class == Array
       max_updated_at = scoped_collection.to_a.map { |i| i.updated_at ? i.updated_at.utc.to_f : 0 }.max
