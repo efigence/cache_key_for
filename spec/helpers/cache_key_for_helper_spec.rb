@@ -47,7 +47,7 @@ describe CacheKeyForHelper, type: :helper do
           subject do
             helper.cache_key_for(*optional_properties)
           end
-          it { is_expected.to eq('en/fake_records/90a09a166bd263f286bea1b830863af67549ef19/other_key/2016-04-02') }
+          it { is_expected.to eq('en/fake_records/022dfcad5abe16a9e14aa009d89dc3d90aec3512/other_key/2016-04-02') }
         end
         context 'when `request.params` include utm parameters (key should not change)' do
           let(:request) { double('request', path: '/some-path', params: { a: '1', b: '1', c: [1, 2, 3], utm_medium: 'cpc' }, subdomains: ['www']) }
@@ -57,7 +57,7 @@ describe CacheKeyForHelper, type: :helper do
           subject do
             helper.cache_key_for(*optional_properties)
           end
-          it { is_expected.to eq('en/fake_records/90a09a166bd263f286bea1b830863af67549ef19/other_key/2016-04-02') }
+          it { is_expected.to eq('en/fake_records/0dbd5b38743bdfa859d3a7fb3c2c32700c3c306e/other_key/2016-04-02') }
         end
       end
       context 'when `whitelist_params` is not empty (key should change)' do
@@ -70,7 +70,7 @@ describe CacheKeyForHelper, type: :helper do
           properties = optional_properties.push(whitelist_params)
           helper.cache_key_for(*properties)
         end
-        it { is_expected.to eq('en/fake_records/4d640ca8ea873c4dbacb9472ff2f4bf620c07c63/other_key/2016-04-02') }
+        it { is_expected.to eq('en/fake_records/4bec1fd887aa18e0d9b9bacf5ed9307503333194/other_key/2016-04-02') }
       end
     end
     context 'when params is empty' do
@@ -94,7 +94,7 @@ describe CacheKeyForHelper, type: :helper do
           properties = optional_properties
           helper.cache_key_for(*properties)
         end
-        it { is_expected.to eq('en/fake_records/4d640ca8ea873c4dbacb9472ff2f4bf620c07c63/other_key/2016-04-02') }
+        it { is_expected.to eq('en/fake_records/4bec1fd887aa18e0d9b9bacf5ed9307503333194/other_key/2016-04-02') }
       end
       context 'when in different time zone (key should not change)' do
         let(:utc_offset) { '+02:00' }
@@ -116,7 +116,7 @@ describe CacheKeyForHelper, type: :helper do
           properties = optional_properties
           helper.cache_key_for(*properties)
         end
-        it { is_expected.to eq('en/fake_records/4d640ca8ea873c4dbacb9472ff2f4bf620c07c63/other_key/2016-04-02') }
+        it { is_expected.to eq('en/fake_records/4bec1fd887aa18e0d9b9bacf5ed9307503333194/other_key/2016-04-02') }
       end
     end
   end
