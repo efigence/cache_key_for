@@ -67,10 +67,15 @@ module CacheKeyForHelper
     else # Array or not paginated scope
       scoped_collection.count
     end
-    if scoped_collection.respond_to?(:ids)
-      ids_string = scoped_collection.ids
+    ids_string = if scoped_collection.respond_to?(:ids)
+      begin
+        scoped_collection.ids
+      rescue ActiveRecord::EagerLoadPolymorphicError
+        Rails.logger.debug "[CacheKeyForHelper] Fallback to array (ActiveRecord::EagerLoadPolymorphicError)"
+        scoped_collection.to_a.map(&:id).join('-')
+      end
     else
-      ids_string = scoped_collection.to_a.map(&:id).join('-')
+      scoped_collection.to_a.map(&:id).join('-')
     end
     blacklist_params = ['utm_source', 'utm_medium', 'utm_term', 'utm_content', 'utm_campaign']
     flat_request_params = if request.params
@@ -87,8 +92,8 @@ module CacheKeyForHelper
     end
     digest = Digest::SHA1.hexdigest("#{ids_string}-#{max_updated_at}-#{count}-#{request.subdomains.join('.')}-#{request.path}-#{flat_request_params}")
     # puts "Caller: #{caller.first}"
-    puts "generated cache key digest base: #{ids_string}-#{max_updated_at}-#{count}-#{request.subdomains.join('.')}-#{request.path}-#{flat_request_params}"
-    puts "generated cache key: #{I18n.locale}/#{collection_prefix}/#{digest}/#{cache_owner_cache_key}/#{suffix}"
+    # puts "generated cache key digest base: #{ids_string}-#{max_updated_at}-#{count}-#{request.subdomains.join('.')}-#{request.path}-#{flat_request_params}"
+    # puts "generated cache key: #{I18n.locale}/#{collection_prefix}/#{digest}/#{cache_owner_cache_key}/#{suffix}"
     "#{I18n.locale}/#{collection_prefix}/#{digest}/#{cache_owner_cache_key}/#{suffix}"
   end
 end
