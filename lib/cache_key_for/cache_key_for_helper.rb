@@ -66,9 +66,9 @@ module CacheKeyForHelper
     blacklist_params = ['utm_source', 'utm_medium', 'utm_term', 'utm_content', 'utm_campaign']
     request_params = if request.params
       if whitelist_params.empty?
-        default_params.merge(request.params).reject { |k, _v| blacklist_params.include?(k.to_s) }
+        default_params.merge(request.params).reject { |k, _v| blacklist_params.map(&:to_s).include?(k.to_s) }
       else
-        default_params.merge(request.params).select { |k, _v| whitelist_params.include?(k.to_s) }
+        default_params.merge(request.params).select { |k, _v| whitelist_params.map(&:to_s).include?(k.to_s) }
       end.map { |k, v| [k.to_s.dup.force_encoding('UTF-8'), v.dup.to_s.force_encoding('UTF-8')] }
     else
       nil
