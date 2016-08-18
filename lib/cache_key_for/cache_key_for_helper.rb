@@ -64,21 +64,21 @@ module CacheKeyForHelper
       ids_string = scoped_collection.to_a.map(&:id).join('-')
     end
     blacklist_params = ['utm_source', 'utm_medium', 'utm_term', 'utm_content', 'utm_campaign']
-    request_params = if request.params
+    flat_request_params = if request.params
       if whitelist_params.empty?
-        default_params.merge(request.params).reject { |k, _v| blacklist_params.map(&:to_s).include?(k.to_s) }
+        default_params.stringify_keys.merge(request.params).reject { |k, _v| blacklist_params.map(&:to_s).include?(k) }
       else
-        default_params.merge(request.params).select { |k, _v| whitelist_params.map(&:to_s).include?(k.to_s) }
-      end.map do |k, v|
+        default_params.stringify_keys.merge(request.params).select { |k, _v| whitelist_params.map(&:to_s).include?(k) }
+      end.map { |k, v|
         # don't care about data type in the `v`, convert all to string
         [k.to_s.dup.force_encoding('UTF-8'), v.to_s.dup.force_encoding('UTF-8')]
-      end
+      }.to_h
     else
       nil
     end
-    digest = Digest::SHA1.hexdigest("#{ids_string}-#{max_updated_at}-#{count}-#{request.subdomains.join('.')}-#{request.path}-#{request_params}")
+    digest = Digest::SHA1.hexdigest("#{ids_string}-#{max_updated_at}-#{count}-#{request.subdomains.join('.')}-#{request.path}-#{flat_request_params}")
     # puts "Caller: #{caller.first}"
-    # puts "generated cache key digest base: #{ids_string}-#{max_updated_at}-#{count}-#{request.subdomains.join('.')}-#{request.path}-#{request_params}"
+    # puts "generated cache key digest base: #{ids_string}-#{max_updated_at}-#{count}-#{request.subdomains.join('.')}-#{request.path}-#{flat_request_params}"
     # puts "generated cache key: #{I18n.locale}/#{collection_prefix}/#{digest}/#{cache_owner_cache_key}/#{suffix}"
     "#{I18n.locale}/#{collection_prefix}/#{digest}/#{cache_owner_cache_key}/#{suffix}"
   end
