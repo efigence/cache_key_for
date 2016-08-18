@@ -21,6 +21,7 @@ Features:
 * deletion from and addition to collections sorted in ascending order (via embedded `count` in the key)
 * accepts `cache_owner_cache_key` for personalized cache, eg. current_company.cache_key, current_user.cache_key etc.
 * filters params with proper non-utf8 data handling for key generation
+* supports paginated and not paginated collections or arrays of objects
 * recognizes pagination via params (performs well for less than 100 objects per page)
 * allows to set default page and per_page or sort order or any param in `default_params` to avoid multiple different default caches
 * includes all params, not only GET's `query` params, which enables submitting of complex forms via POST,

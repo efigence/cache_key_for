@@ -6,6 +6,7 @@
 # * deletion from and addition to collections sorted in ascending order (via embedded `count` in the key)
 # * accepts `cache_owner_cache_key` for personalized cache, eg. current_company.cache_key, current_user.cache_key etc.
 # * filters params with proper non-utf8 data handling for key generation
+# * supports paginated and not paginated collections or arrays of objects
 # * recognizes pagination via params (performs well for less than 100 objects per page)
 # * allows to set default page and per_page or sort order or any param in `default_params` to avoid multiple different default caches
 # * includes all params, not only GET's `query` params, which enables submitting of complex forms via POST,
@@ -43,21 +44,29 @@
 # ```
 module CacheKeyForHelper
   def cache_key_for(scoped_collection, collection_prefix, cache_owner_cache_key = '', suffix = '', whitelist_params = [], default_params = {})
-    if scoped_collection.respond_to?(:maximum) # ActiveRecord
+    # 1) paginated scope - `maximum/max` database query on page(2) does not work
+    # 2) Array doesn't respond to `total_pages`
+    max_updated_at = if scoped_collection.respond_to?(:total_pages) || scoped_collection.class == Array
+      scoped_collection.to_a.map { |i| i.updated_at ? i.updated_at.utc.to_f : 0 }.max
+    elsif scoped_collection.respond_to?(:maximum) # not paginated ActiveRecord::Relation
       begin
-        max_updated_at = scoped_collection.maximum(scoped_collection.table_name + '.updated_at').to_f
+        scoped_collection.maximum(scoped_collection.table_name + '.updated_at').to_f
       # can't use join table as query root if query includes polimorphic associations
       rescue ActiveRecord::EagerLoadPolymorphicError
         Rails.logger.debug "[CacheKeyForHelper] Fallback to array (ActiveRecord::EagerLoadPolymorphicError)"
         scoped_collection = scoped_collection.to_a
-        max_updated_at = scoped_collection.to_a.map { |i| i.updated_at ? i.updated_at.utc.to_f : 0 }.max
+        scoped_collection.to_a.map { |i| i.updated_at ? i.updated_at.utc.to_f : 0 }.max
       end
-    elsif scoped_collection.class == Array
-      max_updated_at = scoped_collection.to_a.map { |i| i.updated_at ? i.updated_at.utc.to_f : 0 }.max
-    elsif scoped_collection.respond_to?(:max) # Mongoid
-      max_updated_at = scoped_collection.max(:updated_at).to_f
+    elsif scoped_collection.respond_to?(:max) # not paginated Mongoid::Criteria
+      scoped_collection.max(:updated_at).to_f
     end
-    count = scoped_collection.count
+    count = if scoped_collection.respond_to?(:total_count) # kaminari
+      scoped_collection.total_count
+    elsif scoped_collection.respond_to?(:total_entries) # will_paginate
+      scoped_collection.total_entries
+    else # Array or not paginated scope
+      scoped_collection.count
+    end
     if scoped_collection.respond_to?(:ids)
       ids_string = scoped_collection.ids
     else
