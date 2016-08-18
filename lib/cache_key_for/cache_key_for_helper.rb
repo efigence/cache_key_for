@@ -69,7 +69,10 @@ module CacheKeyForHelper
         default_params.merge(request.params).reject { |k, _v| blacklist_params.map(&:to_s).include?(k.to_s) }
       else
         default_params.merge(request.params).select { |k, _v| whitelist_params.map(&:to_s).include?(k.to_s) }
-      end.map { |k, v| [k.to_s.dup.force_encoding('UTF-8'), v.dup.to_s.force_encoding('UTF-8')] }
+      end.map do |k, v|
+        # don't care about data type in the `v`, convert all to string
+        [k.to_s.dup.force_encoding('UTF-8'), v.to_s.dup.force_encoding('UTF-8')]
+      end
     else
       nil
     end
