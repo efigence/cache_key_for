@@ -37,6 +37,7 @@ Gem::Specification.new do |s|
                       "cache_key_for.gemspec",
                       "gemfiles/rails_4.1.0.gemfile",
                       "gemfiles/rails_4.2.0.gemfile",
+                      "gemfiles/rails_5.0.0.gemfile",
                       "lib/cache_key_for.rb",
                       "lib/cache_key_for/cache_key_for_helper.rb",
                       "lib/cache_key_for/cache_key_for_view_helper.rb",
